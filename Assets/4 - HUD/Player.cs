@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 namespace HUDExamples
@@ -6,6 +7,9 @@ namespace HUDExamples
     [RequireComponent(typeof(CharacterMotor))]
     public class Player : MonoBehaviour
     {
+        public UnityEvent OnPlayerJump;
+
+        #region Player stats
         public FractionProperty Health;
         public FractionProperty Mana;
         public FractionProperty Fatigue;
@@ -17,6 +21,7 @@ namespace HUDExamples
         public UIBar HealthBar;
         public UIBar ManaBar;
         public UIBar FatigueBar;
+        #endregion
 
         private CharacterMotor characterMotor;
         private bool jumped;
@@ -26,7 +31,7 @@ namespace HUDExamples
             characterMotor = GetComponent<CharacterMotor>();
         }
 
-        void OnEnable()
+        void Start()
         {
             HealthBar.Value = Health;
             ManaBar.Value = Mana;
@@ -72,14 +77,12 @@ namespace HUDExamples
 
             jumped = Input.GetButtonDown("Jump") && characterMotor.IsGrounded() && characterMotor.jumping.enabled;
             if (jumped)
+            {
                 Fatigue.Value -= JumpFatigueCost;
+                OnPlayerJump.Invoke();
+            }
 
             characterMotor.inputJump = Input.GetButton("Jump");
-        }
-
-        public void TakeDamage(int amount)
-        {
-            
         }
 
         IEnumerator RegenerateFatigue()
