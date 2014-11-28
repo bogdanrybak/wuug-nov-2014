@@ -23,9 +23,9 @@ namespace HUDExamples
                         _value.PropertyChanged += OnPropertyChanged;
                         OnPropertyChanged(_value.Value, _value.Max);
                     }
-                }
-                else
-                    ClearBar();
+                    else
+                        ClearBar();
+                } 
             }
         }
         private FractionProperty _value;

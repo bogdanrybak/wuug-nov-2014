@@ -4,12 +4,10 @@ using System;
 
 namespace HUDExamples
 {
-    public delegate void PropertyChangedHandler(float value, float max);
-
     [Serializable]
     public class FractionProperty
     {
-        public PropertyChangedHandler PropertyChanged;
+        public Action<float, float> PropertyChanged;
 
         public float Value
         {
